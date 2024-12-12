@@ -9,6 +9,7 @@
 #include <expected>
 #include <string>
 #include <optional>
+#include <charconv>
 
 // Function that returns an optional int
 std::optional<int> find_value(int key)
@@ -31,7 +32,6 @@ void demo_optional(int key)
     {
         std::cout << "Value not found for key: " << key << std::endl;
     }
-    std::cout << std::endl;
 }
 
 // A function that might fail
@@ -55,22 +55,76 @@ void demo_divide(int a, int b)
     {
         std::cout << "Error: " << result.error() << std::endl;
     }
-    std::cout << std::endl;
+}
+
+// Function that returns an optional expected
+std::optional<std::expected<int, std::string>> parse_int(const std::optional<std::string> &input)
+{
+    if (!input.has_value())
+    {
+        return std::nullopt;
+    }
+
+    int result;
+    auto [ptr, ec] = std::from_chars(input->data(), input->data() + input->size(), result);
+
+    if (ec == std::errc())
+    {
+        return std::expected<int, std::string>(result);
+    }
+    else
+    {
+        return std::expected<int, std::string>(std::unexpected("Parsing failed"));
+    }
+}
+
+void demo_optional_expected(const std::optional<std::string> &input)
+{
+    auto result = parse_int(input);
+
+    if (!result.has_value())
+    {
+        std::cout << "No input provided" << std::endl;
+    }
+    else if (result.value())
+    {
+        std::cout << "Parsed value: " << *result.value() << std::endl;
+    }
+    else
+    {
+        std::cout << "Error: " << result.value().error() << std::endl;
+    }
 }
 
 int main(int, const char *[])
 {
     std::cout << "Hello, World!\n"
               << std::endl;
-    ;
 
-    // Example usage of std::expected
+    std::cout << "Example usage of std::expected:\n"
+              << std::endl;
+
     demo_divide(10, 2);
     demo_divide(10, 0);
 
-    // Example usage of std::optional
+    std::cout << std::endl;
+
+    std::cout << "Example usage of std::optional:\n"
+              << std::endl;
+
     demo_optional(42);
     demo_optional(7);
+
+    std::cout << std::endl;
+
+    std::cout << "Example usage of std::optional std::expected:\n"
+              << std::endl;
+
+    demo_optional_expected(std::nullopt);
+    demo_optional_expected("42");
+    demo_optional_expected("not a number");
+
+    std::cout << std::endl;
 
     return 0;
 }
