@@ -20,6 +20,10 @@
 /bin/
 /obj/
 
+# Doxygen
+/html/
+/latex/
+
 # IDE-specific files
 *.layout
 *.depend
