@@ -21,6 +21,6 @@ run: $(TARGET_PATH)
 clean:
 	rm -rf $(BUILD_DIR)
 
-doxygen:
+doxygen: $(SRC) Doxyfile
 	doxygen Doxyfile
 	open html/index.html

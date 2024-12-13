@@ -21,7 +21,7 @@
 /obj/
 
 # Doxygen
-/html/
+# /html/
 /latex/
 
 # IDE-specific files
@@ -34,4 +34,3 @@
 
 # macOS
 .DS_Store
-
