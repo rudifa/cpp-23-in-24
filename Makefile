@@ -20,3 +20,7 @@ run: $(TARGET_PATH)
 
 clean:
 	rm -rf $(BUILD_DIR)
+
+doxygen:
+	doxygen Doxyfile
+	open html/index.html
