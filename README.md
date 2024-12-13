@@ -24,3 +24,9 @@ Thread model: posix
 InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
 
 ```
+
+## Build, run and document
+
+`make run` : build and run the demo
+
+`make doxygen` : build the documentation and open it in the browser
